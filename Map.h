@@ -1,7 +1,7 @@
 #include <iostream>
 
-typedef double ValueType;
-typedef std::string KeyType;
+typedef int KeyType;
+typedef std::string ValueType;
 const int DEFAULT_MAX_ITEMS = 200;
 
 class Map
@@ -60,128 +60,14 @@ public:
 	void swap(Map& other);
 	// Exchange the contents of this map with the other one.
 private:
-	KeyVal m_keyvalue[];
-};
-
-struct KeyVal
-{
-public:
-	KeyType name = "";
-	ValueType number = 0;
-};
-
-Map::Map()
-{
+	struct KeyVal
+	{
+	public:
+		KeyType key;
+		ValueType val;
+	};
 	KeyVal m_keyvalue[DEFAULT_MAX_ITEMS];
-}
+	int m_size;
+};
 
-bool Map::empty() const
-{
-
-}
-
-int Map::size() const
-{
-	int size = 0;
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-		if (m_keyvalue[i].name != "")
-			size++;
-	return size;
-}
-
-bool Map::insert(const KeyType& key, const ValueType& value)
-{
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-		if (key == m_keyvalue[i].name)
-			return false;
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-		if (m_keyvalue[i].name == "" && m_keyvalue[i].number == 0)
-		{
-			m_keyvalue[i].name = key;
-			m_keyvalue[i].number = value;
-			return true;
-		}	
-	return false;
-}
-
-bool Map::update(const KeyType& key, const ValueType& value)
-{
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-		if (key == m_keyvalue[i].name)
-		{
-			m_keyvalue[i].number = value;
-			return true;
-		}
-	return false;
-}
-
-bool Map::insertOrUpdate(const KeyType& key, const ValueType& value)
-{
-	if (!update(key, value))
-		if (!insert(key, value))
-			return false;
-	return true;
-}
-
-bool Map::erase(const KeyType& key)
-{
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-		if (key == m_keyvalue[i].name)
-		{
-			m_keyvalue[i].name = "";
-			m_keyvalue[i].number = 0;
-			return true;
-		}
-	return false;
-}
-
-bool Map::contains(const KeyType& key) const
-{
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-		if (key == m_keyvalue[i].name)
-		{
-			return true;
-		}
-	return false;
-}
-
-bool Map::get(const KeyType& key, ValueType& value)
-{
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-		if (key == m_keyvalue[i].name)
-		{
-			value = m_keyvalue[i].number;
-			return true;
-		}
-	return false;
-}
-
-bool Map::get(int i, KeyType& key, ValueType& value)
-{
-	if (i >= 0 && i < size())
-	{
-		key = m_keyvalue[i].name;
-		value = m_keyvalue[i].number;
-	}
-}
-
-void Map::swap(Map& other)
-{
-	KeyVal swapper[DEFAULT_MAX_ITEMS];
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-	{
-	swapper[i].name = m_keyvalue[i].name;
-	swapper[i].number = m_keyvalue[i].number;
-	}
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-	{
-		m_keyvalue[i].name = other.m_keyvalue[i].name;
-		m_keyvalue[i].number = other.m_keyvalue[i].number;
-	}
-	for (int i = 0; i < DEFAULT_MAX_ITEMS; i++)
-	{
-		(other.m_keyvalue[i]).name = swapper[i].name;
-		(other.m_keyvalue[i]).number = swapper[i].number;
-	}
-}
 
